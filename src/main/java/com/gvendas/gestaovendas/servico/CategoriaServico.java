@@ -19,8 +19,8 @@ public class CategoriaServico {
 		return categoriaRepositorio.findAll();
 	}
 	
-	public Optional<Categoria> buscarPorId(Long id){
-		return categoriaRepositorio.findById(id);
+	public Optional<Categoria> buscarPorId(Long codigo){
+		return categoriaRepositorio.findById(codigo);
 	}
 	
 }

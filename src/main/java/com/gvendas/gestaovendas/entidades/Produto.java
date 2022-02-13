@@ -36,7 +36,7 @@ public class Produto {
 	@Column(name = "observacao")
 	private String observacao;
 
-	//@ManyToMany
+	@ManyToMany
 	@JoinColumn(name = "codigo_categoria", referencedColumnName = "codigo")
 	private Categoria categoria;
 

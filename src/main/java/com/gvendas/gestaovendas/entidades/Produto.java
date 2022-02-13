@@ -1,6 +1,7 @@
 package com.gvendas.gestaovendas.entidades;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -38,7 +39,7 @@ public class Produto {
 
 	@ManyToMany
 	@JoinColumn(name = "codigo_categoria", referencedColumnName = "codigo")
-	private Categoria categoria;
+	private List <Categoria> categoria;
 
 	public Long getCodigo() {
 		return codigo;
@@ -88,11 +89,12 @@ public class Produto {
 		this.observacao = observacao;
 	}
 
-	public Categoria getCategoria() {
+
+	public List<Categoria> getCategoria() {
 		return categoria;
 	}
 
-	public void setCategoria(Categoria categoria) {
+	public void setCategoria(List<Categoria> categoria) {
 		this.categoria = categoria;
 	}
 

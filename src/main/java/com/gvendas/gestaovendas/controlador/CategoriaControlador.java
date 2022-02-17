@@ -3,6 +3,8 @@ package com.gvendas.gestaovendas.controlador;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +39,7 @@ public class CategoriaControlador {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Categoria> salvar(@RequestBody Categoria categoria){
+	public ResponseEntity<Categoria> salvar(@Valid @RequestBody Categoria categoria){
 		Categoria categoriaSalva = categoriaServico.salvar(categoria);
 		return ResponseEntity.status(HttpStatus.CREATED).body(categoriaSalva);
 	}

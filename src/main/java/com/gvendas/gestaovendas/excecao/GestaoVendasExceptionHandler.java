@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -29,11 +30,20 @@ public class GestaoVendasExceptionHandler extends ResponseEntityExceptionHandler
 		// TODO Auto-generated method stub
 		List<Erro> erros = new ArrayList<Erro>();
 		bindingResult.getFieldErrors().forEach(fieldError -> {
-			String msgUsuario = fieldError.getDefaultMessage();
+			String msgUsuario = tratarMensagemDeErroParaUsuario(fieldError);
 			String msgDesenvolvedor = fieldError.toString();
 			erros.add(new Erro(msgUsuario,msgDesenvolvedor));
 		});
 		
 		return erros;
+	}
+
+	private String tratarMensagemDeErroParaUsuario(FieldError fieldError) {
+		if(fieldError.getCode().equals("NotBlank")) {
+			return fieldError.getDefaultMessage().concat(" é obrigatório");
+		} else if(fieldError.getCode().equals("Length")) {
+			return fieldError.getDefaultMessage().concat(" deve ter entre 3 e 50 Caracteres");
+		}
+		return null;
 	}
 }

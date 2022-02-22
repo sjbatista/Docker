@@ -16,6 +16,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class GestaoVendasExceptionHandler extends ResponseEntityExceptionHandler {
 
+	private static final String CONSTANT_VALIDATION_LENGTH = "Length";
+	private static final String CONSTANT_VALIDATION_NOT_BLANK = "NotBlank";
+
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -39,11 +42,11 @@ public class GestaoVendasExceptionHandler extends ResponseEntityExceptionHandler
 	}
 
 	private String tratarMensagemDeErroParaUsuario(FieldError fieldError) {
-		if(fieldError.getCode().equals("NotBlank")) {
+		if(fieldError.getCode().equals(CONSTANT_VALIDATION_NOT_BLANK)) {
 			return fieldError.getDefaultMessage().concat(" é obrigatório");
-		} else if(fieldError.getCode().equals("Length")) {
+		} else if(fieldError.getCode().equals(CONSTANT_VALIDATION_LENGTH)) {
 			return fieldError.getDefaultMessage().concat(" deve ter entre 3 e 50 Caracteres");
 		}
-		return null;
+		return fieldError.toString();
 	}
 }

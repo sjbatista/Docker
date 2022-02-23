@@ -23,10 +23,10 @@ public class GestaoVendasExceptionHandler extends ResponseEntityExceptionHandler
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		// TODO Auto-generated method stub
-		
-		gerarListaDeErros(ex.getBindingResult());
-		
-		return super.handleMethodArgumentNotValid(ex, headers, status, request);
+
+		List<Erro> erros = gerarListaDeErros(ex.getBindingResult());
+
+		return handleExceptionInternal(ex, erros, headers, HttpStatus.BAD_REQUEST, request);
 	}
 
 	private List<Erro> gerarListaDeErros(BindingResult bindingResult) {
@@ -35,17 +35,18 @@ public class GestaoVendasExceptionHandler extends ResponseEntityExceptionHandler
 		bindingResult.getFieldErrors().forEach(fieldError -> {
 			String msgUsuario = tratarMensagemDeErroParaUsuario(fieldError);
 			String msgDesenvolvedor = fieldError.toString();
-			erros.add(new Erro(msgUsuario,msgDesenvolvedor));
+			erros.add(new Erro(msgUsuario, msgDesenvolvedor));
 		});
-		
+
 		return erros;
 	}
 
 	private String tratarMensagemDeErroParaUsuario(FieldError fieldError) {
-		if(fieldError.getCode().equals(CONSTANT_VALIDATION_NOT_BLANK)) {
+		if (fieldError.getCode().equals(CONSTANT_VALIDATION_NOT_BLANK)) {
 			return fieldError.getDefaultMessage().concat(" é obrigatório");
-		} else if(fieldError.getCode().equals(CONSTANT_VALIDATION_LENGTH)) {
-			return fieldError.getDefaultMessage().concat(" deve ter entre 3 e 50 Caracteres");
+		} else if (fieldError.getCode().equals(CONSTANT_VALIDATION_LENGTH)) {
+			return fieldError.getDefaultMessage().concat(String.format(" deve ter entre %s e %s Caracteres",
+					fieldError.getArguments()[2], fieldError.getArguments()[1]));
 		}
 		return fieldError.toString();
 	}

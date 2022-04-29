@@ -7,7 +7,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-
 import com.gvendas.gestaovendas.repositorio.CategoriaRepositorio;
 import com.gvendas.gestaovendas.entidades.Categoria;
 
